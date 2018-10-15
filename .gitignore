@@ -1,0 +1,14 @@
+
+
+# for firebase vertical prototype
+*.iml
+.gradle
+/Firebase_Vertical_Prototype/local.properties
+/Firebase_Vertical_Prototype/.idea/caches/build_file_checksums.ser
+/Firebase_Vertical_Prototype/.idea/libraries
+/Firebase_Vertical_Prototype/.idea/modules.xml
+/Firebase_Vertical_Prototype/.idea/workspace.xml
+.DS_Store
+/Firebase_Vertical_Prototype/build
+/Firebase_Vertical_Prototype/captures
+.externalNativeBuild
