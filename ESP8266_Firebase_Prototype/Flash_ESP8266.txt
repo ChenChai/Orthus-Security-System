@@ -15,6 +15,15 @@ Use "pip install esptools" with python and pip in the command line with python i
 
 
 Use the following port connections:
+UNO — ESP8266 (wire color)
+RX — RX (white)
+TX — TX (green)
+GND — GND (black)
+GND — GPIO 0 (purple)
+3.3V — VCC (red)
+3.3V — CH_PD (orange)
+
+When uploading code, connect GPIO 0 to ground. Disconnect it after.
 
 Useful links:
 https://cordobo.com/2300-flash-esp8266-01-with-arduino-uno/
