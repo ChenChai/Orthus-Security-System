@@ -11,3 +11,13 @@
 /Firebase_Vertical_Prototype/build
 /Firebase_Vertical_Prototype/captures
 .externalNativeBuild
+
+
+/OrthusApp/local.properties
+/OrthusApp/.idea/caches/build_file_checksums.ser
+/OrthusApp/.idea/libraries
+/OrthusApp/.idea/modules.xml
+/OrthusApp/.idea/workspace.xml
+.DS_Store
+/OrthusApp/build
+/OrthusApp/captures
