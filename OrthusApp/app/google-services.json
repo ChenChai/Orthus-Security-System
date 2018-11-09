@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "516107080431",
+    "firebase_url": "https://orthusapp.firebaseio.com",
+    "project_id": "orthusapp",
+    "storage_bucket": "orthusapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516107080431:android:bc457232d39e2d55",
+        "android_client_info": {
+          "package_name": "com.example.orthusapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "516107080431-7s5rofvdhqbhg8hlidt94ej2d17lbklm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.orthusapp",
+            "certificate_hash": "98c5f3db5a30d98fed2fb9f3cfd4dc68206b21fc"
+          }
+        },
+        {
+          "client_id": "516107080431-h7grc9cgpg6ej56dmjdt90592s890mji.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoYURP9JcqmZZ_s9hKsG9TU6xzOnyPWe0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "516107080431-h7grc9cgpg6ej56dmjdt90592s890mji.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
