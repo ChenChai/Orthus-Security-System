@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">OrthusApp</string>
+    <string name="app_name">Orthus</string>
+    <string name="login_greet">Please sign in to Orthus.</string>
 </resources>

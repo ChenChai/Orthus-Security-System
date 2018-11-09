@@ -21,5 +21,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        // check if current user is authenticated
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        if (mFirebaseUser == null) { // send user to login activity
+            startActivity(new Intent(this, LoginActivity.class));
+            finish(); // stop this activity so the user can't return to it
+        } else {
+            username = mFirebaseUser.getDisplayName();
+        }
+
+    }
 
 }
