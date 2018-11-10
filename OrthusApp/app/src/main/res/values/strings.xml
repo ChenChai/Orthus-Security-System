@@ -2,6 +2,8 @@
     <string name="app_name">Orthus</string>
 
 
+    <string name="logout_button_text">Logout</string>
+
     <string name="login_greet">Please sign in to Orthus.</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>

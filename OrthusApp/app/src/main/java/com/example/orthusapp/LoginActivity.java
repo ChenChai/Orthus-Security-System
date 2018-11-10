@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class LoginActivity extends AppCompatActivity {
 
     @Override
@@ -13,6 +15,17 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // TODO: Let user login with FirebaseAuth
+
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+
+        // if the user is already signed in, they don't need the login screen
+        if(FirebaseAuth.getInstance().getCurrentUser() != null){
+            finish();
+        }
 
     }
 
