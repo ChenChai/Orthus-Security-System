@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Orthus</string>
+
+
     <string name="login_greet">Please sign in to Orthus.</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button_text">Login</string>
+    <string name="create_account_button_text">New User?</string>
 </resources>
