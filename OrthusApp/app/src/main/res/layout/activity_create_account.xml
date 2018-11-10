@@ -55,13 +55,14 @@
         app:layout_constraintHorizontal_bias="0.1"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/createAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/create_account_text"
+        android:onClick="createAccount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createPasswordEditText" />
 
