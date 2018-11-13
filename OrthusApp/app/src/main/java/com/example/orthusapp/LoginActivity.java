@@ -44,15 +44,28 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-
+    
     public void launchCreateAccount(View view){
         startActivity(new Intent(this, CreateAccountActivity.class));
     }
 
     // called when login button is pressed.
+    //TODO: handle null exceptions
     public void loginMe(View view){
         String email = emaiLEditText.getText().toString();
         String password = passwordEditText.getText().toString();
+
+        if(email.length() == 0){
+            emaiLEditText.setError("Please enter an email.");
+            return;
+        }
+
+        if(password.length() == 0){
+            passwordEditText.setError("Please enter a password.");
+            return;
+        }
+
+
 
         mFirebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
