@@ -44,13 +44,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-    
+
     public void launchCreateAccount(View view){
         startActivity(new Intent(this, CreateAccountActivity.class));
     }
 
     // called when login button is pressed.
-    //TODO: handle null exceptions
     public void loginMe(View view){
         String email = emaiLEditText.getText().toString();
         String password = passwordEditText.getText().toString();
