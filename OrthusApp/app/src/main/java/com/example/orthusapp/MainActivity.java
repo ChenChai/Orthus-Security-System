@@ -7,6 +7,10 @@ import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+// TODO implement recyclerView
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,16 +18,20 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
 
-    private String username;
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mDatabaseReference;
 
+    private String userUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
     }
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
 
         // check if current user is authenticated
@@ -34,11 +42,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish(); // stop this activity so the user can't return to it
         } else {
-            username = mFirebaseUser.getDisplayName();
+            userUid = mFirebaseUser.getUid();
         }
 
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        if(userUid != null) {
+            mDatabaseReference = mFirebaseDatabase.getReference("Users/" + userUid);
+            mDatabaseReference.child("testChild").setValue("Online!");
+        }
     }
-
     // called when logout button is clicked
     public void logoutMe(View view){
         mFirebaseAuth.signOut();
@@ -46,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         // send user back to login activity
         startActivity(new Intent(this, LoginActivity.class));
         finish();
+    }
+
+    private void playAlarm(){
+
     }
 
 }

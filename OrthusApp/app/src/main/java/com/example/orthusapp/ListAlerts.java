@@ -1,21 +1,18 @@
 package com.example.orthusapp;
 
-import android.app.LauncherActivity;
-
 public class ListAlerts {
 
-    private String time;
+    private String alertTime;
     private String armed;
 
     public ListAlerts(String mTime, String mArmed){
-        mTime = time;
+        mTime = alertTime;
         mArmed = armed;
     }
 
-    public String getTime() {
-        return time;
+    public String getAlertTime() {
+        return alertTime;
     }
-
     public String getArmed() {
         return armed;
     }
