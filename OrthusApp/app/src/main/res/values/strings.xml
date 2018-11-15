@@ -12,4 +12,9 @@
 
     <string name="create_account_greet">Create a new account.</string>
     <string name="create_account_text">Create!</string>
+
+    <string name="status_clear_text">ONLINE</string>
+    <string name="status_alarm_text">ALARM</string>
+    <string name="status_offline_text">OFFLINE</string>
+
 </resources>

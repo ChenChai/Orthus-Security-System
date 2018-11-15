@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
@@ -59,8 +60,11 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(CreateAccountActivity.this, "Account creation successful!", Toast.LENGTH_SHORT).show();
+                    mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+                    Toast.makeText(CreateAccountActivity.this, "Account creation successful! Hello, ", Toast.LENGTH_SHORT).show();
                     accountCreated = true;
+
                     startActivity(new Intent(CreateAccountActivity.this, MainActivity.class));
                     finish();
                 } else {
@@ -70,8 +74,7 @@ public class CreateAccountActivity extends AppCompatActivity {
             }
         });
 
-        mFirebaseUser = mFirebaseAuth.getCurrentUser();
-
+        // TODO: remove legacy code
         if(accountCreated){
             startActivity(new Intent(this, MainActivity.class));
             finish();
