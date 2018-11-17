@@ -13,16 +13,20 @@ boolean newData = false;
 int i = 0;
 
 void setup(){
-  WiFi.begin("HPENVY", "wbnu5405");
+  WiFi.begin("uw-wifi-setup-no-encryption","");
+  //WiFi.begin("HPENVY", "wbnu5405");
   Serial.begin(9600);
 
   //Serial.print(WiFi.localIP());
   // get the secret from account settings > service accounts > database secrets in Firebase Console.
-  Firebase.begin("fir-vertical-prototype.firebaseio.com","MbcYHrAArRq9WhAX4VXOm6UDupZ3Qz39yIkfAyTS");
+  Firebase.begin("orthusapp.firebaseio.com","xazt0htFMJIBNwbdrh4dYZru2ctvVkAisx1mjnbM");
   
 } 
 void loop(){
   recvData();
+
+  Firebase.setInt("testValue/test1", 2);
+  
   if(newData){
     Firebase.setInt("testValue", 1);
     /*if(Firebase.failed()){
