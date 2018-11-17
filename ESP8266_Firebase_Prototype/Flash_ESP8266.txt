@@ -1,0 +1,29 @@
+This is how we flashed the ESP8266 with Arduino Core.
+
+First, connect the ESP8266 using the bypass mode (i.e. the mode that we can access the AT commands in). The ability to use AT commands will be overwritten, and instead, the ESP8266 will be a mini arduino. 
+
+First, note the port we connected on under tools > port on the arduino IDE. Ours is COM4.
+
+We need to install esptool through python pip. 
+
+esptool --port COM4 --baud 115200 write_flash --flash_size=detect 0 C:/Users/Chai/Documents/micropy.bin --verify
+
+This micropy.bin is the arduino core that we used to flash the ESP8266
+
+
+Use "pip install esptools" with python and pip in the command line with python installed to get esptools.
+
+
+Use the following port connections:
+UNO — ESP8266 (wire color)
+RX — RX (white)
+TX — TX (green)
+GND — GND (black)
+GND — GPIO 0 (purple)
+3.3V — VCC (red)
+3.3V — CH_PD (orange)
+
+When uploading code, connect GPIO 0 to ground. Disconnect it after.
+
+Useful links:
+https://cordobo.com/2300-flash-esp8266-01-with-arduino-uno/

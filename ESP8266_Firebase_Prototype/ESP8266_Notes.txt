@@ -1,0 +1,24 @@
+ESP8266 MAC Address: BC:DD:C2:15:04:B9
+
+TODO: upload Arduino Pin diagrams for direct mode and through-arduino mode.
+
+How we intend to connect to the ESP8266 is through serial connections.
+
+Initially, we bypassed the Arduino Mega completely and used a command line input from the desktop computer to access the ESP8266. We managed to connect to a hotspot from a phone. This allowed us to retrieve the ESP8266's MAC address, which we will send to IST to allow the ESP8266 to connect to wifi anywhere on campus using "uw-wifi-setup-no-encryption".
+
+How to access the command line:
+Connect the ESP8266 to the Arduino using the diagrams
+Install the ESP8266 library:
+
+http://arduino.esp8266.com/versions/2.4.2/package_esp8266com_index.json
+
+Paste this in the form under preferences, then scroll to the bottom of the libraries manager and install the latest version.
+
+Next, go to Arduino IDE -> Tools -> Board and select "Generic ESP8266 Module"
+Then, go to Tools -> Serial Monitor to input commands. Try "AT" and see if that works.
+
+
+
+
+
+Now, we will be using the Arduino
