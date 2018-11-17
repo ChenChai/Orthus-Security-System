@@ -57,16 +57,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // send user to login if not logged in.
+        // send user to login screen if not logged in.
         authenticateUser();
         // adds listeners to see if connected to Firebase
         setupStatusText();
         // adds listener to see if Firebase alarm variable is activated
         setupAlertListener();
-
         // reads armed value from preferences and adds listener to switch
         setupArmedSwitch();
-
     }
 
 
@@ -149,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     // adds listener to update the status text
     private void setupStatusText(){
         connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
@@ -183,6 +181,9 @@ public class MainActivity extends AppCompatActivity {
             alarmIntent.putExtra("alert_type", 1);
             alarmIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // makes sure user doesn't have to deal with a bunch of instances of AlertActivity
             startActivity(alarmIntent);
+
+
+
         }
 
         // otherwise simply alert them through text.

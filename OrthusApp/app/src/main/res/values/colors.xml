@@ -8,4 +8,6 @@
     <color name="colorAlarm">#d31717</color>
     <color name="colorClear">#6bd217</color>
 
+    <color name="colorBackground"></color>
+
 </resources>
