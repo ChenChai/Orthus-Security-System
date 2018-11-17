@@ -6,6 +6,8 @@
 const char *ssid = "HPENVY";
 const char *password = "wbnu5405";
 */
+int receivedInt;
+boolean newData = false;
 
 int i = 0;
 
@@ -19,23 +21,31 @@ void setup(){
   
 } 
 void loop(){
+  recvData();
+  if(newData){
+    Firebase.setInt("testValue", 1);
+    if(Firebase.failed()){
   
-  Firebase.setInt("testValue", 1);
-  if(Firebase.failed()){
-
-    Serial.println(Firebase.error());
-  } else{
-    Serial.println("Set 1 succeeded!");
+      Serial.println(Firebase.error());
+    } else{
+      Serial.println("Set 1 succeeded!");
+    }
+    delay(1000);
   }
-  delay(1000);
-
-  Firebase.setInt("testValue", 0);
-  if(Firebase.failed()){
-
-    Serial.println(Firebase.error());
-  } else{
-    Serial.println("Set 0 succeeded!");
+  else {
+    Firebase.setInt("testValue", 0);
+    if(Firebase.failed()){
+  
+      Serial.println(Firebase.error());
+    } else{
+      Serial.println("Set 0 succeeded!");
+    }
+    delay(1000);
   }
-  delay(1000);
 }
- 
+
+void recvData() {
+ if (Serial.available() > 0) {
+  newData = true;
+ }
+}

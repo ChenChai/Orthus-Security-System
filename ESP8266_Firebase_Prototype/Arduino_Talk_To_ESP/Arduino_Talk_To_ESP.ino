@@ -1,7 +1,7 @@
 #include <SoftwareSerial.h> // serial command library, I think? see https://www.arduino.cc/en/Reference/SoftwareSerial for details
 
-#define RX 10 // connected to TX of ESP8266
-#define TX 11 // connected to RX of ESP8266
+#define RX 2 // connected to TX of ESP8266
+#define TX 1 // connected to RX of ESP8266
 
 
 SoftwareSerial esp8266(RX,TX); // creates instance of SoftwareSerial object; we'll name it esp8266
@@ -21,9 +21,7 @@ void setup() {
 
 void loop() {
 
-  Serial.print("Test!");
-
-  
+  Serial.print("T");
   digitalWrite(ledPin,HIGH);
   delay(2000);
   digitalWrite(ledPin, LOW);
