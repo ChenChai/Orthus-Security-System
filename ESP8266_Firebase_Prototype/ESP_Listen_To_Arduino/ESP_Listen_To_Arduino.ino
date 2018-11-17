@@ -24,8 +24,9 @@ void setup(){
 } 
 void loop(){
   recvData();
-
-  Firebase.setInt("testValue/test1", 2);
+  // This creates a new child node.
+  Firebase.pushInt("testValue", 2);
+  
   
   if(newData){
     Firebase.setInt("testValue", 1);
