@@ -16,15 +16,15 @@ void setup() {
 
   // TODO: figure out exactly what this code does
   Serial.begin(9600); // set baud rate of Arduino Mega
-  esp8266.begin(115200); // set baud rate of esp8266 
+  esp8266.begin(9600); // set baud rate of esp8266 
 }
 
 void loop() {
-
-  Serial.print("T");
+  
+  esp8266.print("T");
   digitalWrite(ledPin,HIGH);
-  delay(2000);
+  //delay(2000);
   digitalWrite(ledPin, LOW);
-  delay(2000);
+  //delay(2000);
 
 }
