@@ -4,8 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class AlertActivity extends AppCompatActivity {
 
     TextView alertTextView;
@@ -18,7 +16,7 @@ public class AlertActivity extends AppCompatActivity {
 
         alertTextView = (TextView) findViewById(R.id.alertTextView);
 
-        alertTextView.setText(Integer.toString(alertType));
+        alertTextView.setText("ALERT!" + Integer.toString(alertType));
     }
 
     @Override
