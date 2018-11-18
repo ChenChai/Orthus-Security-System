@@ -6,11 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
@@ -18,10 +14,6 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -30,11 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.SnapshotParser;
 
 import java.util.ArrayList;
-import java.util.List;
 
 // TODO implement recyclerView
 
@@ -60,9 +49,10 @@ public class MainActivity extends AppCompatActivity {
     private String userUid;
 
     private ListView alertListView;
-    ArrayList<String> listItems = new ArrayList<String>();
-    ArrayList<String> listKeys = new ArrayList<String>();
-    ArrayAdapter<String> adapter;
+    ArrayList<String> timestampList = new ArrayList<String>();
+    ArrayList<String> sensorList = new ArrayList<String>();
+    ArrayList<String> keyList = new ArrayList<String>();
+    AlertAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +66,12 @@ public class MainActivity extends AppCompatActivity {
 
         alertListView = (ListView) findViewById(R.id.alertListView);
 
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);
+        adapter = new AlertAdapter(this, sensorList, timestampList, keyList);
         alertListView.setAdapter(adapter);
         alertListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // on click
+                // TODO add on click functionality?
             }
         });
 
@@ -115,9 +105,11 @@ public class MainActivity extends AppCompatActivity {
         ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                // TODO Handle null exceptions
                 String timestamp = dataSnapshot.child("timestamp").getValue().toString();
-                adapter.add(timestamp);
-                listKeys.add(dataSnapshot.getKey());
+                String sensorId = dataSnapshot.child("sensor").getValue().toString();
+                adapter.add(timestamp, sensorId);
+                keyList.add(dataSnapshot.getKey());
                 adapter.notifyDataSetChanged();
 
             }
@@ -130,11 +122,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
                 String key = dataSnapshot.getKey();
-                int index = listKeys.indexOf(key);
+                int index = keyList.indexOf(key);
                 // if the alert exists in our lists, remove it.
                 if (index != -1){
-                    listKeys.remove(index);
-                    listItems.remove(index);
+                    keyList.remove(index);
+                    timestampList.remove(index);
                     adapter.notifyDataSetChanged();
                 }
             }

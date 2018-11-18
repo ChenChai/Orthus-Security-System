@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.zip.Inflater;
@@ -17,7 +18,10 @@ public class AlertAdapter extends BaseAdapter {
     ArrayList<String> keyList;
 
     public AlertAdapter(Context context, ArrayList<String> sensorList, ArrayList<String> timestampList, ArrayList<String> keyList){
-
+        this.sensorList = sensorList;
+        this.timestampList = timestampList;
+        this.keyList = keyList;
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     }
 
@@ -31,6 +35,11 @@ public class AlertAdapter extends BaseAdapter {
         return null;
     }
 
+    public void add(String sensorId, String timeStamp){
+        sensorList.add(sensorId);
+        timestampList.add(timeStamp);
+    }
+
     @Override
     public long getItemId(int i) {
         return 0;
@@ -38,6 +47,13 @@ public class AlertAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        return null;
+        View v = inflater.inflate(R.layout.list_alerts, null);
+        TextView sensorIdTextView = (TextView) v.findViewById(R.id.sensorIdTextView);
+        TextView alertTimeTextView = (TextView) v.findViewById(R.id.alertTimeTextView);
+
+        sensorIdTextView.setText(sensorList.get(i));
+        alertTimeTextView.setText(timestampList.get(i));
+
+        return v;
     }
 }
