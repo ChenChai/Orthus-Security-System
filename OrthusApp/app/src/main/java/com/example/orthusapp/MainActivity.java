@@ -1,16 +1,21 @@
 package com.example.orthusapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,10 +23,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.SnapshotParser;
 
 // TODO implement recyclerView
 
 public class MainActivity extends AppCompatActivity {
+
+    private static String TAG = "MainActivity";
 
     // these will hold instances of the Firebase auth variables
     private FirebaseAuth mFirebaseAuth;
@@ -40,10 +49,13 @@ public class MainActivity extends AppCompatActivity {
 
     private String userUid;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         armedSwitch = findViewById(R.id.armedSwitch);
 
@@ -52,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
         // get handle through preference file key
         userPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), MainActivity.MODE_PRIVATE);
         userPreferencesEditor = userPreferences.edit();
+
+
     }
 
     @Override
@@ -66,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         // reads armed value from preferences and adds listener to switch
         setupArmedSwitch();
     }
-
 
 
     private void authenticateUser() {
