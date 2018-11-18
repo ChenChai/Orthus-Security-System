@@ -2,12 +2,13 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 
 import { DataSnapshot } from 'firebase-functions/lib/providers/database';
+admin.initializeApp();
 
 export const addDataTimestamp = functions.database.ref('/users/{userUID}/alerts/{pushID}')
     .onCreate(
         // onCreate requires a function. Below is a function that takes two parameters
         (snapshot, context) => {
-            admin.initializeApp();
+
             // get what was written to Firebase
             const original = snapshot.val();
 
