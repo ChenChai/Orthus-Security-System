@@ -7,6 +7,9 @@
     <color name="colorOffline">#1465e8</color>
     <color name="colorAlarm">#d31717</color>
     <color name="colorClear">#6bd217</color>
+    <color name="colorAlertList">#008577</color>
+    <color name="colorAlertListText">#f7f7f7</color>
+    <color name="colorAlertHistory">#FFFFFF</color>
 
     <color name="colorBackground">#c6b35f</color>
 

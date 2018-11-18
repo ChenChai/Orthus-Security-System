@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 // TODO implement recyclerView
 
@@ -106,9 +107,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 // TODO Handle null exceptions
-                String timestamp = dataSnapshot.child("timestamp").getValue().toString();
+
+                // convert firebase timestamp to string
+                Date date = new Date((long) dataSnapshot.child("timestamp").getValue());
+                String timestamp = date.toLocaleString();
+
                 String sensorId = dataSnapshot.child("sensor").getValue().toString();
-                adapter.add(timestamp, sensorId);
+                adapter.add("Sensor ID: " + sensorId, timestamp);
                 keyList.add(dataSnapshot.getKey());
                 adapter.notifyDataSetChanged();
 

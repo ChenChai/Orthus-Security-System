@@ -12,10 +12,10 @@ import java.util.zip.Inflater;
 
 public class AlertAdapter extends BaseAdapter {
 
-    LayoutInflater inflater;
-    ArrayList<String> sensorList;
-    ArrayList<String> timestampList;
-    ArrayList<String> keyList;
+    private LayoutInflater inflater;
+    private ArrayList<String> sensorList;
+    private ArrayList<String> timestampList;
+    private ArrayList<String> keyList;
 
     public AlertAdapter(Context context, ArrayList<String> sensorList, ArrayList<String> timestampList, ArrayList<String> keyList){
         this.sensorList = sensorList;
@@ -36,8 +36,8 @@ public class AlertAdapter extends BaseAdapter {
     }
 
     public void add(String sensorId, String timeStamp){
-        sensorList.add(sensorId);
-        timestampList.add(timeStamp);
+        sensorList.add(0, sensorId);
+        timestampList.add(0, timeStamp);
     }
 
     @Override
