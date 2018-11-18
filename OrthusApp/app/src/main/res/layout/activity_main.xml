@@ -10,9 +10,9 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="20dp"
         android:onClick="logoutUser"
         android:text="@string/logout_button_text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -76,19 +76,35 @@
         app:layout_constraintTop_toBottomOf="@+id/armedSwitch" />
 
 
+    <Button
+        android:id="@+id/clearHistoryButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Clear"
+        android:onClick="clearAlertHistory"
+        app:layout_constraintBottom_toTopOf="@+id/alertListView"
+        app:layout_constraintEnd_toEndOf="@+id/historyTextView"
+        app:layout_constraintTop_toTopOf="@+id/historyTextView" />
+
     <ListView
         android:id="@+id/alertListView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginBottom="8dp"
         android:background="@color/colorAlertList"
+        android:foregroundGravity="top"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/lowerBarrier"
         app:layout_constraintEnd_toEndOf="@+id/rightBarrier"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/leftBarrier"
         app:layout_constraintTop_toBottomOf="@+id/upperBarrier" />
 
@@ -128,5 +144,6 @@
         android:layout_marginRight="24dp"
         app:barrierDirection="left"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>
