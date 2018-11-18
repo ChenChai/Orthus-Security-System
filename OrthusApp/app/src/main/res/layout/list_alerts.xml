@@ -12,24 +12,22 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/colorAlertListText"
-        android:text="Sensor: Living Room" />
+        android:text="Sensor: Living Room"
+        android:textColor="@color/colorAlertListText" />
 
     <TextView
         android:id="@+id/alertTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/sensorIdTextView"
+        android:layout_alignParentStart="true"
         android:layout_gravity="end"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
-        android:gravity="end"
-        android:text="3:49 PM, November 5" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="3:49 PM, November 5"
+        android:textColor="@color/colorAlertListTime" />
 
 </RelativeLayout>

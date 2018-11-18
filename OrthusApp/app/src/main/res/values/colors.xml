@@ -10,7 +10,10 @@
     <color name="colorAlertList">#008577</color>
     <color name="colorAlertListText">#f7f7f7</color>
     <color name="colorAlertHistory">#FFFFFF</color>
+    <color name="colorAlertListTime">#a9a9a9</color>
+
 
     <color name="colorBackground">#c6b35f</color>
+
 
 </resources>

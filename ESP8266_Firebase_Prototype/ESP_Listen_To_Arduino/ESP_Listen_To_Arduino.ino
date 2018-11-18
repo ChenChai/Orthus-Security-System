@@ -3,55 +3,94 @@
 #include <ESP8266WiFi.h>
 #include <FirebaseArduino.h>
 #include <SoftwareSerial.h>
-/*
-const char *ssid = "HPENVY";
-const char *password = "wbnu5405";
-*/
+
+// set this to be your UID, found in the app!
+#define USER_UID "ghOWrsWTzDbly9oIccIwPwMDdvu2"
+#define SENSOR_NAME "Chen's Dorm"
+
+#define WIFI_SSID "uw-wifi-setup-no-encryption"
+#define WIFI_PASSWORD ""
+
+// get the secret from account settings > service accounts > database secrets in Firebase Console.
+#define DATABASE_URL "orthusapp.firebaseio.com"
+#define DATABASE_SECRET "xazt0htFMJIBNwbdrh4dYZru2ctvVkAisx1mjnbM"
+
+
 
 int receivedInt;
 boolean newData = false;
+boolean activityDetected = false;
+boolean isInitialized = false;
+String userNode;
+
 int i = 0;
 
 void setup(){
-  WiFi.begin("uw-wifi-setup-no-encryption","");
-  //WiFi.begin("HPENVY", "wbnu5405");
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.begin(9600);
 
-  //Serial.print(WiFi.localIP());
+  String uid = USER_UID;
+  userNode = "users/" + uid;
+  
   // get the secret from account settings > service accounts > database secrets in Firebase Console.
-  Firebase.begin("orthusapp.firebaseio.com","xazt0htFMJIBNwbdrh4dYZru2ctvVkAisx1mjnbM");
+  Firebase.begin(DATABASE_URL,DATABASE_SECRET);
+
+  // sends a message to app to tell user sensor has been initialized
   
 } 
 void loop(){
+  
+  // sometimes, it takes multiple calls to write.
+  if(!isInitialized) initializeSensor();
+  
+  
+
+
+  /*
+  sendAlert();
+  delay(1000000);
+
+  if(activityDetected){
+    Firebase.setInt(userNode + "/alert", 1);
+  } else {
+    Firebase.setInt(userNode + "/alert", 0);
+  }
+  
   recvData();
-  // This creates a new child node.
-  Firebase.pushInt("testValue", 2);
-  
-  
+
+
   if(newData){
     Firebase.setInt("testValue", 1);
-    /*if(Firebase.failed()){
-  
-      Serial.println(Firebase.error());
-    } else{
-      Serial.println("Set 1 succeeded!");
-    }*/
     delay(1000);
   }
-  /*else {
-    Firebase.setInt("testValue", 0);
-       if(Firebase.failed()){
+*/
+}
+
+void initializeSensor(){
+  String sensorName = SENSOR_NAME;
+  Firebase.setString(userNode + "/alerts/initial", "Initialized: " + sensorName);
+  if(Firebase.success()){
+    isInitialized = true;  
+  } else {
+    isInitialized = false;
+  }
   
-      Serial.println(Firebase.error());
-    } else{
-      Serial.println("Set 0 succeeded!");
-    }
-    delay(1000);
-  }*/
+}
+
+// TODO Handle empty node when pushing
+void sendAlert() {
+
+  String uid = USER_UID;
+  String node = "users/" + uid + "/alerts";
+  String sensorName = SENSOR_NAME;
+  Firebase.pushString(node, "Activity: " + sensorName);
+  
 }
 
 void recvData() {
  if (Serial.available() > 0) {
   newData = true;
+ } else {
+  newData = false;
  }
 }

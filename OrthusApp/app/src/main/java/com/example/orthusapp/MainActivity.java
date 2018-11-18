@@ -1,9 +1,12 @@
 package com.example.orthusapp;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -118,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
 
                 // TODO: send notification to user
+
+
 
             }
 
@@ -275,7 +280,10 @@ public class MainActivity extends AppCompatActivity {
         statusTextView.setTextColor(getResources().getColor(R.color.colorAlarm));
 
 
+
     }
+
+
 
     private void turnOffAlarm(){
         statusTextView.setText(R.string.status_clear_text); // TODO Refactor code that changes alarm status
