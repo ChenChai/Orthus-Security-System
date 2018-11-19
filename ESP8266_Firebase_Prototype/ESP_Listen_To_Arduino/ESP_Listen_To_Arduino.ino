@@ -89,7 +89,9 @@ void sendAlert() {
 
 void recvData() {
  if (Serial.available() > 0) {
+  Serial.read();
   newData = true;
+  delay(500);
  } else {
   newData = false;
  }
