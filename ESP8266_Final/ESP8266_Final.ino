@@ -23,11 +23,10 @@ boolean newData = false;
 boolean isInitialized = false;
 boolean activityDetected = false;
 
-int cooldown;
+int cooldown = 0;
 // firebase json address of the user's node
 String userNode;
 String sensorName;
-
 
 
 
@@ -56,16 +55,27 @@ void loop() {
   recvData();
 
   // if new data has been received, handle it and try to send an alert.
+  // what this code allows is a single alert for each "block" of time a person has been in the room for. If the sensor doesn't detect a lapse in movement, it won't send out another alert.
   if (newData == true) {
+      
+      if (cooldown <= 0) {
+        Firebase.pushString(userNode + "/alerts", "Activity: " + sensorName);
+      }
 
-      Firebase.pushString(userNode + "/alerts", "Activity: " + sensorName);
+      cooldown = 10;
       // cooldown activates.
+      
+      Firebase.setInt(userNode + "/alert", 1);
+      
       delay(2000);
       newData = false;
       Serial.flush();
+      
+  } else if (cooldown <= 0) {
+    Firebase.setInt(userNode + "/alert", 0);
   }
 
-
+  cooldown--;
 }
 
 void initializeSensor(){

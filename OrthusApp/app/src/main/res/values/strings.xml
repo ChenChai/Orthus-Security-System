@@ -14,7 +14,7 @@
     <string name="create_account_text">Create!</string>
 
     <string name="status_clear_text">ONLINE</string>
-    <string name="status_alarm_text">ALARM</string>
+    <string name="status_alarm_text">ACTIVITY</string>
     <string name="status_offline_text">OFFLINE</string>
 
     <string name="armed_text">Armed</string>

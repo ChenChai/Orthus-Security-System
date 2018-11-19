@@ -265,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
     private void handleAlarm(){
 
         // if the system is armed then launch an entirely new activity
-        if(armedSwitch.isChecked()) {
+  /*      if(armedSwitch.isChecked()) {
             Intent alarmIntent = new Intent(this, AlertActivity.class);
             alarmIntent.putExtra("alert_type", 1);
             alarmIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // makes sure user doesn't have to deal with a bunch of instances of AlertActivity
@@ -273,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        }
+        }*/
 
         // otherwise simply alert them through text.
         statusTextView.setText(R.string.status_alarm_text);
