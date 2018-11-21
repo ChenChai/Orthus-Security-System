@@ -22,9 +22,10 @@ void loop() {
     
     Serial.write(1);
     Serial1.write(1);
+    Serial.println("Motion captured!");
     delay(1000);
     
-    Serial.println("Motion caputered!");
+
     //Do something while a person is in range
     if(pirState == LOW){
       // Do something when a person first enters
