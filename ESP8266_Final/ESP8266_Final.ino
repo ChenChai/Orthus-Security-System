@@ -58,8 +58,8 @@ void loop() {
   // if new data has been received, handle it and try to send an alert.
   // what this code allows is a single alert for each "block" of time a person has been in the room for. If the sensor doesn't detect a lapse in movement, it won't send out another alert.
   if (newData == true) {
-      if (cooldown <= 0 && Firebase.getInt(userNode + "/armed") == 1) {
-        Firebase.pushString(userNode + "/alerts", "Activity: " + sensorName + ". Armed: " + Firebase.getInt(userNode + "/armed"));
+      if (cooldown <= 0 && Firebase.getBool(userNode + "/armed") == true) {
+        Firebase.pushString(userNode + "/alerts", "Activity: " + sensorName);
       }
 
       cooldown = 10;
@@ -79,8 +79,7 @@ void loop() {
 }
 
 void initializeSensor(){
-Firebase.setInt(userNode + "/alert", 1);
-  Firebase.setString(userNode + "/alerts/initial", "Initialized: " + sensorName + ". Armed: " + Firebase.getInt(userNode + "/armed"));
+  Firebase.setString(userNode + "/alerts/initial", "Initialized: " + sensorName);
 
 }
 
