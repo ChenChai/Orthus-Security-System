@@ -228,14 +228,17 @@ public class MainActivity extends AppCompatActivity {
                     armedSwitch.setText(R.string.armed_text);
                     userPreferencesEditor.putBoolean(getString(R.string.preference_armed_key), true);
                     userPreferencesEditor.commit();
+                    userInfoRef.child("armed").setValue(1);
                 } else {
                     armedSwitch.setText(R.string.disarmed_text);
                     userPreferencesEditor.putBoolean(getString(R.string.preference_armed_key), false);
                     userPreferencesEditor.commit();
+                    userInfoRef.child("armed").setValue(0);
                 }
             }
         });
     }
+
 
     // adds listener to update the status text
     private void setupStatusText(){
@@ -248,6 +251,8 @@ public class MainActivity extends AppCompatActivity {
                     statusTextView.setText(R.string.status_clear_text);
                     statusTextView.setTextColor(getResources().getColor(R.color.colorClear));
                     armedSwitch.setClickable(true);
+
+
                 } else {
                     statusTextView.setText(R.string.status_offline_text);
                     statusTextView.setTextColor(getResources().getColor(R.color.colorOffline));
