@@ -19,11 +19,11 @@ void setup() {
   pinMode(input2Pin; INPUT);
   pinMode(input2Pin; INPUT);
   Serial.begin(9600);
-  esp8266.begin(9600);
+  Serial1.begin(9600);
 }
 
 void loop() {
-  recvData;
+//  recvData();
   if(ON == '1'){
     digitalWrite(ledPin, HIGH); 
     val1 = digitalRead(inputPin1);
@@ -31,13 +31,13 @@ void loop() {
     if (val1 == HIGH || val2 == HIGH){
       if(pirState == LOW){
         pirState = HIGH;
-        esp8266.print('1');
+        Serial.print('1');
+        Serial1.print('1');
       }
     }
     else {
       if(pirState == HIGH){
         pirState = LOW;
-        esp8266.print('0');
       }
     }
   }
@@ -46,9 +46,10 @@ void loop() {
     }
 }
 
-
+/*
 void recvData() {
  if (esp8266.available() > 0) {
   ON = Serial.read();
  } 
 }
+*/

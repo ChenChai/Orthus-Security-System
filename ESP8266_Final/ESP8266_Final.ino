@@ -44,12 +44,13 @@ void setup() {
   userNode = "users/" + uid;
 
   sensorName = SENSOR_NAME;
+
 }
 
 void loop() {
   
   // sometimes, the first write to Firebase doesn't register, so we keep looping until it is successful.
-  if(!isInitialized) initializeSensor();
+  initializeSensor();
   
   // listen for any new inputs from the Arduino
   recvData();
@@ -57,9 +58,8 @@ void loop() {
   // if new data has been received, handle it and try to send an alert.
   // what this code allows is a single alert for each "block" of time a person has been in the room for. If the sensor doesn't detect a lapse in movement, it won't send out another alert.
   if (newData == true) {
-      
-      if (cooldown <= 0) {
-        Firebase.pushString(userNode + "/alerts", "Activity: " + sensorName);
+      if (cooldown <= 0 && Firebase.getInt(userNode + "/armed") == 1) {
+        Firebase.pushString(userNode + "/alerts", "Activity: " + sensorName + ". Armed: " + Firebase.getInt(userNode + "/armed"));
       }
 
       cooldown = 10;
@@ -79,12 +79,9 @@ void loop() {
 }
 
 void initializeSensor(){
-  Firebase.setString(userNode + "/alerts/initial", "Initialized: " + sensorName);
-  if (Firebase.success()) {
-    isInitialized = true;
-  } else {
-    isInitialized = false;
-  }
+Firebase.setInt(userNode + "/alert", 1);
+  Firebase.setString(userNode + "/alerts/initial", "Initialized: " + sensorName + ". Armed: " + Firebase.getInt(userNode + "/armed"));
+
 }
 
 void recvData() {
@@ -94,7 +91,7 @@ void recvData() {
   while(Serial.available() > 0) {
     Serial.read();
   }
-  //Serial.flush();
+
  } else {
   newData = false;
  }
