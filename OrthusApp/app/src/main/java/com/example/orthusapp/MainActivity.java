@@ -1,21 +1,17 @@
 package com.example.orthusapp;
 
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     TextView statusTextView;
 
     private String userUid;
+    private boolean connected;
 
     private ListView alertListView;
     ArrayList<String> timestampList = new ArrayList<String>();
@@ -61,40 +58,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         armedSwitch = (Switch) findViewById(R.id.armedSwitch);
         statusTextView = (TextView) findViewById(R.id.statusTextView);
-
         alertListView = (ListView) findViewById(R.id.alertListView);
 
         adapter = new AlertAdapter(this, sensorList, timestampList, keyList);
         alertListView.setAdapter(adapter);
-        alertListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // TODO add on click functionality?
-            }
-        });
 
-
-        // get handle through preference file key
+        // get handle to user preferences through preference file key
         userPreferences = this.getSharedPreferences(getString(R.string.preference_file_key), MainActivity.MODE_PRIVATE);
         userPreferencesEditor = userPreferences.edit();
 
         // send user to login screen if not logged in.
         authenticateUser();
         // adds listeners to see if connected to Firebase
-        setupStatusText();
+        setupConnectedListener();
         // adds listener to see if Firebase alarm variable is activated
         setupAlertListener();
         // reads armed value from preferences and adds listener to switch
         setupArmedSwitch();
-
-
-        addChildEventListener();
-
-
     }
 
     @Override
@@ -102,61 +84,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
     }
-
-    private void addChildEventListener(){
-        ChildEventListener childEventListener = new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                // TODO Handle null exceptions
-
-                // Add alert to alert list
-
-                // convert firebase timestamp to string
-                Date date = new Date((long) dataSnapshot.child("timestamp").getValue());
-                String timestamp = date.toLocaleString();
-
-                String sensorId = dataSnapshot.child("sensor").getValue().toString();
-                adapter.add(sensorId, timestamp);
-                keyList.add(dataSnapshot.getKey());
-                adapter.notifyDataSetChanged();
-
-                // TODO: send notification to user
-
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                String key = dataSnapshot.getKey();
-                int index = keyList.indexOf(key);
-                // if the alert exists in our lists, remove it.
-                if (index != -1){
-                    keyList.remove(index);
-                    timestampList.remove(index);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        // add the listener on to the timestampedAlerts node of Firebase
-        FirebaseDatabase.getInstance().getReference("users/" + userUid + "/timeStampedAlerts").addChildEventListener(childEventListener);
-    }
-
 
     private void authenticateUser() {
         // check if current user is authenticated
@@ -189,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
             userInfoRef.child("alert").setValue(-1);
 
-            // listen for any alerts happening
+            // listen for any alerts happening currently
             userInfoRef.child("alert").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -206,8 +133,56 @@ public class MainActivity extends AppCompatActivity {
                     statusTextView.setTextColor(getResources().getColor(R.color.colorOffline));
                 }
             });
-
         }
+
+        // listener for the alert history nodes
+        ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                // TODO Handle null exceptions
+
+
+                // convert firebase timestamp to string
+                Date date = new Date((long) dataSnapshot.child("timestamp").getValue());
+                String timestamp = date.toLocaleString();
+
+                // Add alert to arraylist
+                String sensorId = dataSnapshot.child("sensor").getValue().toString();
+                adapter.add(sensorId, timestamp);
+                keyList.add(dataSnapshot.getKey());
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                String key = dataSnapshot.getKey();
+                int index = keyList.indexOf(key);
+                // if the alert exists in our lists, remove it.
+                if (index != -1){
+                    keyList.remove(index);
+                    timestampList.remove(index);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        // add the listener on to the timestampedAlerts node of Firebase
+        FirebaseDatabase.getInstance().getReference("users/" + userUid + "/timeStampedAlerts").addChildEventListener(childEventListener);
+
     }
 
     private void setupArmedSwitch() {
@@ -228,22 +203,24 @@ public class MainActivity extends AppCompatActivity {
                     armedSwitch.setText(R.string.armed_text);
                     userPreferencesEditor.putBoolean(getString(R.string.preference_armed_key), true);
                     userPreferencesEditor.commit();
+                    userInfoRef.child("armed").setValue(true);
                 } else {
                     armedSwitch.setText(R.string.disarmed_text);
                     userPreferencesEditor.putBoolean(getString(R.string.preference_armed_key), false);
                     userPreferencesEditor.commit();
+                    userInfoRef.child("armed").setValue(false);
                 }
             }
         });
     }
 
     // adds listener to update the status text
-    private void setupStatusText(){
+    private void setupConnectedListener(){
         connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                boolean connected = dataSnapshot.getValue(Boolean.class);
+                connected = dataSnapshot.getValue(Boolean.class);
                 if(connected){
                     statusTextView.setText(R.string.status_clear_text);
                     statusTextView.setTextColor(getResources().getColor(R.color.colorClear));
@@ -253,7 +230,6 @@ public class MainActivity extends AppCompatActivity {
                     statusTextView.setTextColor(getResources().getColor(R.color.colorOffline));
                     armedSwitch.setClickable(false); // do not want the user changing armed status while offline.
                 }
-
             }
 
             @Override
@@ -265,27 +241,10 @@ public class MainActivity extends AppCompatActivity {
 
     // called when alert value changes in database
     private void handleAlarm(){
-
-        // if the system is armed then launch an entirely new activity
-  /*      if(armedSwitch.isChecked()) {
-            Intent alarmIntent = new Intent(this, AlertActivity.class);
-            alarmIntent.putExtra("alert_type", 1);
-            alarmIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // makes sure user doesn't have to deal with a bunch of instances of AlertActivity
-            startActivity(alarmIntent);
-
-
-
-        }*/
-
         // otherwise simply alert them through text.
         statusTextView.setText(R.string.status_alarm_text);
         statusTextView.setTextColor(getResources().getColor(R.color.colorAlarm));
-
-
-
     }
-
-
 
     private void turnOffAlarm(){
         statusTextView.setText(R.string.status_clear_text); // TODO Refactor code that changes alarm status
@@ -293,7 +252,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clearAlertHistory(View view){
-        userInfoRef.child("alerts").removeValue();
-        userInfoRef.child("timeStampedAlerts").removeValue();
+        if (connected){
+            userInfoRef.child("alerts").removeValue();
+            userInfoRef.child("timeStampedAlerts").removeValue();
+        } else {
+            Toast.makeText(this,"Cannot clear cloud data while offline.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void showUid(View view){
+        startActivity(new Intent(this, ShowUidActivity.class).putExtra("uid", userUid));
     }
 }

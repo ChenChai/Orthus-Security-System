@@ -1,45 +1,43 @@
-#include <SoftwareSerial.h>
-
-#define RX 2
-#define TX 1
-
-int input1Pin = 52;
-int input2Pin = 53;
-int ledPin = LOW;
+int inputPin1 = 52;
+int inputPin2 = 53;
+int ledPin = 13;
 int pirState = LOW;
 int val1 = 0;
 int val2 = 0;
-char ON = '1';
-
-SoftwareSerial esp8266(RX, TX);
-
 
 void setup() {
   pinMode(ledPin, OUTPUT);
-  pinMode(input2Pin; INPUT);
-  pinMode(input2Pin; INPUT);
+  pinMode(inputPin1, INPUT);
+  pinMode(inputPin2, INPUT);
   Serial.begin(9600);
-  esp8266.begin(9600);
+  Serial1.begin(9600);
 }
 
 void loop() {
-  digitalWrite(ledPin, HIGH); 
   val1 = digitalRead(inputPin1);
   val2 = digitalRead(inputPin2);
-    if (val1 == HIGH || val2 == HIGH){
-      if(pirState == LOW){
-        pirState = HIGH;
-        esp8266.print('1');
-      }
-    }
-    else {
-      if(pirState == HIGH){
-        pirState = LOW;
-        esp8266.print('0');
-      }
+  //digitalWrite(ledPin, HIGH);
+  if (val1 == HIGH && val2 == HIGH) {
+    digitalWrite(ledPin, HIGH);
+    
+    Serial.write(1);
+    Serial1.write(1);
+    delay(1000);
+    
+    Serial.println("Motion caputered!");
+    //Do something while a person is in range
+    if(pirState == LOW){
+      // Do something when a person first enters
+      pirState = HIGH;
     }
   }
-  else{
-   digitalWrite(ledPin, LOW);
+  else {
+    digitalWrite(ledPin, LOW);
+
+    // Do something while a person is out of range 
+    if (pirState == HIGH){
+      // Do something when a person leaves the range
+      pirState = LOW;
+    }
   }
 }
