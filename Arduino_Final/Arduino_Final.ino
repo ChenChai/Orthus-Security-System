@@ -23,11 +23,9 @@ void setup() {
 }
 
 void loop() {
-  recvData;
-  if(ON == '1'){
-    digitalWrite(ledPin, HIGH); 
-    val1 = digitalRead(inputPin1);
-    val2 = digitalRead(inputPin2);
+  digitalWrite(ledPin, HIGH); 
+  val1 = digitalRead(inputPin1);
+  val2 = digitalRead(inputPin2);
     if (val1 == HIGH || val2 == HIGH){
       if(pirState == LOW){
         pirState = HIGH;
@@ -42,13 +40,6 @@ void loop() {
     }
   }
   else{
-    digitalWrite(ledPin, LOW);
-    }
-}
-
-
-void recvData() {
- if (esp8266.available() > 0) {
-  ON = Serial.read();
- } 
+   digitalWrite(ledPin, LOW);
+  }
 }
