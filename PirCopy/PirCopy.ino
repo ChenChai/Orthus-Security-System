@@ -17,7 +17,7 @@ void loop() {
   val1 = digitalRead(inputPin1);
   val2 = digitalRead(inputPin2);
   //digitalWrite(ledPin, HIGH);
-  if (val1 == HIGH || val2 == HIGH) {
+  if (val1 == HIGH && val2 == HIGH) {
     digitalWrite(ledPin, HIGH);
     
     Serial.write(1);

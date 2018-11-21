@@ -247,9 +247,11 @@ public class MainActivity extends AppCompatActivity {
                 if(connected){
                     statusTextView.setText(R.string.status_clear_text);
                     statusTextView.setTextColor(getResources().getColor(R.color.colorClear));
+                    armedSwitch.setClickable(true);
                 } else {
                     statusTextView.setText(R.string.status_offline_text);
                     statusTextView.setTextColor(getResources().getColor(R.color.colorOffline));
+                    armedSwitch.setClickable(false); // do not want the user changing armed status while offline.
                 }
 
             }
