@@ -203,12 +203,12 @@ public class MainActivity extends AppCompatActivity {
                     armedSwitch.setText(R.string.armed_text);
                     userPreferencesEditor.putBoolean(getString(R.string.preference_armed_key), true);
                     userPreferencesEditor.commit();
-                    userInfoRef.child("armed").setValue(1);
+                    userInfoRef.child("armed").setValue(true);
                 } else {
                     armedSwitch.setText(R.string.disarmed_text);
                     userPreferencesEditor.putBoolean(getString(R.string.preference_armed_key), false);
                     userPreferencesEditor.commit();
-                    userInfoRef.child("armed").setValue(0);
+                    userInfoRef.child("armed").setValue(false);
                 }
             }
         });
@@ -258,5 +258,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this,"Cannot clear cloud data while offline.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void showUid(View view){
+        startActivity(new Intent(this, ShowUidActivity.class).putExtra("uid", userUid));
     }
 }
