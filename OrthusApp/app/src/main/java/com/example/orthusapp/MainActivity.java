@@ -195,6 +195,23 @@ public class MainActivity extends AppCompatActivity {
             armedSwitch.setText(R.string.disarmed_text);
         }
 
+        userInfoRef.child("armed").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getValue(Boolean.class)!= null && dataSnapshot.getValue(Boolean.class)){
+                    armedSwitch.setChecked(true);
+                } else {
+                    armedSwitch.setChecked(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         // when the switch is changed, update text.
         armedSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -225,6 +242,7 @@ public class MainActivity extends AppCompatActivity {
                     statusTextView.setText(R.string.status_clear_text);
                     statusTextView.setTextColor(getResources().getColor(R.color.colorClear));
                     armedSwitch.setClickable(true);
+
                 } else {
                     statusTextView.setText(R.string.status_offline_text);
                     statusTextView.setTextColor(getResources().getColor(R.color.colorOffline));
