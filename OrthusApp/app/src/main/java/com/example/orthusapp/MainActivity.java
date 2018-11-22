@@ -141,16 +141,19 @@ public class MainActivity extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 // TODO Handle null exceptions
 
+                try {
+                    // convert firebase timestamp to string
+                    Date date = new Date((long) dataSnapshot.child("timestamp").getValue());
+                    String timestamp = date.toLocaleString();
 
-                // convert firebase timestamp to string
-                Date date = new Date((long) dataSnapshot.child("timestamp").getValue());
-                String timestamp = date.toLocaleString();
+                    // Add alert to arraylist
+                    String sensorId = dataSnapshot.child("sensor").getValue().toString();
+                    adapter.add(sensorId, timestamp);
+                    keyList.add(dataSnapshot.getKey());
+                    adapter.notifyDataSetChanged();
+                } catch (java.lang.NullPointerException exception){
 
-                // Add alert to arraylist
-                String sensorId = dataSnapshot.child("sensor").getValue().toString();
-                adapter.add(sensorId, timestamp);
-                keyList.add(dataSnapshot.getKey());
-                adapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -198,12 +201,15 @@ public class MainActivity extends AppCompatActivity {
         userInfoRef.child("armed").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                try {
+                    boolean isArmed = (Boolean) dataSnapshot.getValue();
 
-                if (dataSnapshot.getValue(Boolean.class)!= null && dataSnapshot.getValue(Boolean.class)){
-                    armedSwitch.setChecked(true);
-                } else {
-                    armedSwitch.setChecked(false);
-                }
+                    if (isArmed) {
+                        armedSwitch.setChecked(true);
+                    } else {
+                        armedSwitch.setChecked(false);
+                    }
+                } catch (java.lang.NullPointerException exception) {}
             }
 
             @Override
@@ -237,16 +243,20 @@ public class MainActivity extends AppCompatActivity {
         connectedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                connected = dataSnapshot.getValue(Boolean.class);
-                if(connected){
-                    statusTextView.setText(R.string.status_clear_text);
-                    statusTextView.setTextColor(getResources().getColor(R.color.colorClear));
-                    armedSwitch.setClickable(true);
+                try {
+                    connected = dataSnapshot.getValue(Boolean.class);
+                    if (connected) {
+                        statusTextView.setText(R.string.status_clear_text);
+                        statusTextView.setTextColor(getResources().getColor(R.color.colorClear));
+                        armedSwitch.setClickable(true);
 
-                } else {
-                    statusTextView.setText(R.string.status_offline_text);
-                    statusTextView.setTextColor(getResources().getColor(R.color.colorOffline));
-                    armedSwitch.setClickable(false); // do not want the user changing armed status while offline.
+                    } else {
+                        statusTextView.setText(R.string.status_offline_text);
+                        statusTextView.setTextColor(getResources().getColor(R.color.colorOffline));
+                        armedSwitch.setClickable(false); // do not want the user changing armed status while offline.
+                    }
+                } catch (java.lang.NullPointerException exception) {
+
                 }
             }
 
