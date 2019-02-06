@@ -11,8 +11,9 @@
 #define SENSOR_NAME "Chen's Dorm"
 
 // set this to be your wifi credentials. Doesn't work on Enterprise WPA2. Leave password empty if no password.
-#define WIFI_SSID "uw-wifi-setup-no-encryption"
-#define WIFI_PASSWORD ""
+//#define WIFI_SSID "uw-wifi-setup-no-encryption"
+#define WIFI_SSID "HPENVY"
+#define WIFI_PASSWORD "wbnu5405"
 
 // Orthus firebase URL and secret. Using the secret is very insecure, but there's no way around it easily.
 #define DATABASE_URL "orthusapp.firebaseio.com"
@@ -58,7 +59,7 @@ void loop() {
   // if new data has been received, handle it and try to send an alert.
   // what this code allows is a single alert for each "block" of time a person has been in the room for. If the sensor doesn't detect a lapse in movement, it won't send out another alert.
   if (newData == true) {
-      if (cooldown <= 0 && Firebase.getBool(userNode + "/armed") == true) {
+      if (cooldown <= 0 && Firebase.getBool(userNode + "/armed")) {
         Firebase.pushString(userNode + "/alerts", "Activity: " + sensorName);
       }
 

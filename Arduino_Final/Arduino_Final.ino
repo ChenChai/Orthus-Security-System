@@ -17,14 +17,14 @@ void loop() {
   val1 = digitalRead(inputPin1);
   val2 = digitalRead(inputPin2);
   //digitalWrite(ledPin, HIGH);
-  if (val1 == HIGH || val2 == HIGH) {
+  if (val1 == HIGH && val2 == HIGH) {
     digitalWrite(ledPin, HIGH);
     
     Serial.write(1);
     Serial1.write(1);
     delay(1000);
     
-    Serial.println("Motion caputered!");
+    Serial.println("Motion captured!");
     //Do something while a person is in range
     if(pirState == LOW){
       // Do something when a person first enters
