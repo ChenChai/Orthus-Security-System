@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupAlertListener() {
+        userInfoRef = mFirebaseDatabase.getReference("users/" + userUid);
         if(userUid != null) {
-            userInfoRef = mFirebaseDatabase.getReference("users/" + userUid);
 
             userInfoRef.child("alert").setValue(-1);
 
@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     keyList.add(dataSnapshot.getKey());
                     adapter.notifyDataSetChanged();
                 } catch (java.lang.NullPointerException exception){
-
+                    exception.printStackTrace();
                 }
             }
 
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupArmedSwitch() {
-        boolean armed = userPreferences.getBoolean(getString(R.string.preference_armed_key), false);
+        final boolean armed = userPreferences.getBoolean(getString(R.string.preference_armed_key), false);
 
         armedSwitch.setChecked(armed);
         if (armed){
@@ -198,18 +198,24 @@ public class MainActivity extends AppCompatActivity {
             armedSwitch.setText(R.string.disarmed_text);
         }
 
+
+        // listen for changes to the armed status.
         userInfoRef.child("armed").addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                try {
-                    boolean isArmed = (Boolean) dataSnapshot.getValue();
+                    dataSnapshot.getValue();
+
+                    Boolean isArmed = armed;
+                    if (dataSnapshot.getValue() instanceof Boolean) {
+                        isArmed = (Boolean) dataSnapshot.getValue();
+                    }
 
                     if (isArmed) {
                         armedSwitch.setChecked(true);
                     } else {
                         armedSwitch.setChecked(false);
                     }
-                } catch (java.lang.NullPointerException exception) {}
             }
 
             @Override
@@ -256,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                         armedSwitch.setClickable(false); // do not want the user changing armed status while offline.
                     }
                 } catch (java.lang.NullPointerException exception) {
-
+                    exception.printStackTrace();
                 }
             }
 
